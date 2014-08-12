@@ -1,0 +1,25 @@
+
+17:00 < mads-> Can I somehow prescan an ifstream with either a regex or just some code so I can 
+               delete certain parts of the stream before actually using it?
+17:01 < Eelis> no.
+17:01 < o-O-o> mads-: lol
+17:02 < o-O-o> you could make a stream adaptor ;) :) :)
+17:02 < o-O-o> then your client code will use your adaptor/decorator/filtered stream as it were a 
+               normal stream
+17:02 < o-O-o> I do this all the time, actually
+17:04 < mads-> o-O-o: how would I do that? 
+17:05 < o-O-o> you create a new stream class that inherits from istream, ostream or both and then 
+               forward requests to your adapted stream
+17:05 < o-O-o> you create a streambuf class that does the filtering for you
+17:05 < o-O-o> your new stream class will be using your streambuf
+17:06 < o-O-o> actually you can do everything with the streambuf if you don't need any special 
+               interface on the stream classes
+17:06 < mads-> fancy. I will look into that. Thanks :)
+17:07 < o-O-o> your client code could be something like this: FilteringBuf buf(yourFileStream, 
+               filtering args...);  std::istream is(&buf);  // use is
+17:07 < o-O-o> mastering streambufs take some time, though. I recommend doing very few baby steps
+17:07 < o-O-o> like starting with a very minimalist streambuf and then improving it slowly
+17:08 < o-O-o> https://github.com/thinlizzy/libpackfiles this project has a very good example of a 
+               streambuf that works with chunks of a bigger stream
+17:08 < o-O-o> Look for Resource.h and Resource.cpp files
+17:08 < mads-> Thanks a lot! I think baby steps are a good place for me to be right.
