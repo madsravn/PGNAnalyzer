@@ -23,3 +23,6 @@
                streambuf that works with chunks of a bigger stream
 17:08 < o-O-o> Look for Resource.h and Resource.cpp files
 17:08 < mads-> Thanks a lot! I think baby steps are a good place for me to be right.
+
+export CXX=/usr/bin/clang++
+export LD_LIBRARY_PATH=/usr/bin/local

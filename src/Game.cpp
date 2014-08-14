@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include <regex>
 
 
 Game::Game() {
@@ -112,8 +113,11 @@ Game::getLoser() const {
 
 
 std::string trim(std::string s) {
-    s.erase( std::remove_if( s.begin(), s.end(), ::isspace ), s.end() );
-    // ::isspace can be replaced with []( char ch ) { std::isspace<char>( ch, std::locale::classic() ); }
+    std::regex reg("^[[:space:]]*(.*)[[:space:]]*$");
+    std::smatch result;
+    if(std::regex_search(s, result, reg)) {
+        return result.str(1);
+    }
     return s;
 }
 
