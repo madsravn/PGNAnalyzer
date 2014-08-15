@@ -174,9 +174,18 @@ Game::parseHeader(std::string line) {
     
 }
 
+std::string removeComments(std::string line) {
+    std::regex clampedcomment("\\{(.*?)\\}");
+    std::regex rolcomment(";(.*)$");
+    line = std::regex_replace(line, clampedcomment, " ");
+    line = std::regex_replace(line, rolcomment, "");
+    return line;
+}
+
 void
 Game::parseMoves(std::string line) {
     // it's chess notation or an "empty" line. do something with it later.
+    line = removeComments(line);
     std::istringstream str(line);
     std::string move;
     while(str >> move) {
