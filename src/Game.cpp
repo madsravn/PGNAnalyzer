@@ -18,6 +18,7 @@ Game::find(const std::string& type, const std::string& value) {
     }
     return false;
 }
+
 int
 Game::indexOf(std::string str) {
     unsigned int resultIndex = std::find(enums.begin(),enums.end(), str) - enums.begin();
@@ -27,6 +28,13 @@ Game::indexOf(std::string str) {
     return -1;
 }
 
+void
+Game::printGame() {
+    for(const auto& m : moves) {
+        std::cout << m << ", ";
+    }
+    std::cout << std::endl;
+}
 
 std::string
 Game::getType() {
@@ -112,6 +120,7 @@ Game::getLoser() const {
 }
 
 
+// Removing whitespace at the start and end of the string.
 std::string trim(std::string s) {
     std::regex reg("^[[:space:]]*(.*)[[:space:]]*$");
     std::smatch result;
@@ -189,12 +198,22 @@ Game::parseMoves(std::string line) {
     std::istringstream str(line);
     std::string move;
     while(str >> move) {
+        std::string tmp = "";
         if(move.find(".") != std::string::npos) {
-            moves.push_back(move.substr(move.find(".")));
+            tmp = move.substr(move.find(".")+1);
         } else {
-            moves.push_back(move);
+            tmp = move;
         }
+        // TODO: Is this a complete list?
+        std::size_t pos = tmp.find_first_of("+#!?");
+        moves.push_back(tmp.substr(0, pos));
     }
+    // TODO: Check if it is an actual move
+    std::string lastmove = moves.at(moves.size()-1);
+    if(lastmove == "0-1" || lastmove == "1-0" || lastmove == "½-½" || lastmove == "1/2-1/2") {
+        moves.pop_back();
+    }
+    
 }
 
 

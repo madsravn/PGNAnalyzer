@@ -22,6 +22,7 @@ public:
     std::string getBlack();
     bool find(const std::string& type, const std::string& value);
     int indexOf(std::string str);
+    void printGame();
 private:
     std::vector<std::string> list;
     std::vector<std::string> enums;
